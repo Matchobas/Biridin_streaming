@@ -4,7 +4,7 @@ export default class CreateMovies1603835841971 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'movies',
+        name: 'movie',
         columns: [
           {
             name: 'id',
@@ -21,7 +21,7 @@ export default class CreateMovies1603835841971 implements MigrationInterface {
           },
           {
             name: 'avaliacao',
-            type: 'integer',
+            type: 'decimal',
             isNullable: true,
           },
           {
@@ -44,6 +44,6 @@ export default class CreateMovies1603835841971 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('movies');
+    await queryRunner.dropTable('movie');
   }
 }

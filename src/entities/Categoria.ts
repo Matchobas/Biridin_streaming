@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
+  ManyToMany,
 } from 'typeorm';
+
+import Movie from './Movie';
 
 @Entity('categorias')
 class Categoria {
@@ -20,6 +23,9 @@ class Categoria {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToMany(() => Movie, movie => movie.categories)
+  movies: Movie[];
 }
 
 export default Categoria;

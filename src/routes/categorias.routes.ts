@@ -4,7 +4,6 @@ import CategoryRepository from '../repositories/CategoriasRepository';
 
 import ListAllCategoriasService from '../services/ListAllCategoriasService';
 import CreateCategoriaService from '../services/CreateCategoriaService';
-import ChangeDescriptionService from '../services/ChangeDescriptionService';
 
 const categoriasRouter = Router();
 
