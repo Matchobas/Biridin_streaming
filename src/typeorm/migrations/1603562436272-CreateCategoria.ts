@@ -5,7 +5,7 @@ export default class CreateCategoria1603562436272
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'categorias',
+        name: 'categoria',
         columns: [
           {
             name: 'id',

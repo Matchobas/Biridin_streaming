@@ -72,6 +72,18 @@ class CategoriaRepository {
       await this.categoria.remove(categoria);
     }
   }
+
+  public async findByName(descricao: string): Promise<Categoria | undefined> {
+    const categoria = await this.categoria.findOne({
+      where: { descricao },
+    });
+
+    if (categoria) {
+      return categoria;
+    }
+
+    return categoria;
+  }
 }
 
 export default CategoriaRepository;

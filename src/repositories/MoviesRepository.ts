@@ -12,11 +12,6 @@ interface QueryDTO {
   max: number;
 }
 
-interface EvaluateDTO {
-  titulo: string;
-  avaliacao: number;
-}
-
 class MoviesRepository {
   private moviesOrm: Repository<Movie>;
 
@@ -30,17 +25,16 @@ class MoviesRepository {
     return movies;
   }
 
-  public async findByNameAndEvaluate({
-    titulo,
-    avaliacao,
-  }: EvaluateDTO): Promise<Movie | undefined> {
+  public async findByName(titulo: string): Promise<Movie | undefined> {
     const movie = await this.moviesOrm.findOne({
       where: { titulo },
     });
 
-    if (movie) {
-      movie.avaliacao = avaliacao;
+    return movie;
+  }
 
+  public async saveMovie(movie: Movie): Promise<Movie | undefined> {
+    if (movie) {
       await this.moviesOrm.save(movie);
     }
 
@@ -61,7 +55,7 @@ class MoviesRepository {
 
     if (primeiro) {
       const query = this.moviesOrm.createQueryBuilder('movie');
-      query.select('MAX(categoria.id)', 'max');
+      query.select('MAX(movie.id)', 'max');
 
       const maxId: QueryDTO = await query.getRawOne();
 
@@ -79,6 +73,14 @@ class MoviesRepository {
     await this.moviesOrm.save(movie);
 
     return movie;
+  }
+
+  public async deleteMovie(titulo: string): Promise<void> {
+    const movie = await this.findByName(titulo);
+
+    if (movie) {
+      await this.moviesOrm.remove(movie);
+    }
   }
 }
 

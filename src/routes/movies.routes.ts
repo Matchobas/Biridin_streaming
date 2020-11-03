@@ -56,4 +56,17 @@ moviesRouter.put('/evaluate', async (request, response) => {
   }
 });
 
+moviesRouter.delete('/delete', async (request, response) => {
+  const moviesRepository = new MoviesRepository();
+  try {
+    const { titulo } = request.body;
+
+    await moviesRepository.deleteMovie(titulo);
+
+    return response.json('Movie removed');
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
+
 export default moviesRouter;

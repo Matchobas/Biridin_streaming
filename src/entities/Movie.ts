@@ -5,11 +5,10 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
   CreateDateColumn,
-  ManyToMany,
-  JoinTable,
+  OneToMany,
 } from 'typeorm';
 
-import Categoria from './Categoria';
+import MoviesToCategorias from './MoviesToCategorias';
 
 @Entity('movie')
 class Movie {
@@ -34,9 +33,11 @@ class Movie {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Categoria, categoria => categoria.movies)
-  @JoinTable()
-  categories: Categoria[];
+  @OneToMany(
+    () => MoviesToCategorias,
+    moviesToCategorias => moviesToCategorias.categoria,
+  )
+  moviesToCategorias: MoviesToCategorias[];
 }
 
 export default Movie;

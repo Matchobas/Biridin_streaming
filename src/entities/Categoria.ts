@@ -5,12 +5,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
-  ManyToMany,
+  OneToMany,
 } from 'typeorm';
 
-import Movie from './Movie';
+import MoviesToCategorias from './MoviesToCategorias';
 
-@Entity('categorias')
+@Entity('categoria')
 class Categoria {
   @PrimaryColumn()
   id: number;
@@ -24,8 +24,11 @@ class Categoria {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Movie, movie => movie.categories)
-  movies: Movie[];
+  @OneToMany(
+    () => MoviesToCategorias,
+    moviesToCategorias => moviesToCategorias.movie,
+  )
+  moviesToCategorias: MoviesToCategorias[];
 }
 
 export default Categoria;

@@ -21,8 +21,10 @@ class CreateMovieService {
     duracao,
     avaliacao,
   }: RequestDTO): Promise<Movie> {
-    if (duracao < 10) {
-      throw new Error('This movie duration is invalid, please enter another');
+    if (duracao < 10 || duracao > 600) {
+      throw new Error(
+        'This movie duration is invalid, please enter another between 10 and 600',
+      );
     }
 
     if (avaliacao) {
