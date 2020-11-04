@@ -1,8 +1,12 @@
 import { Router } from 'express';
 
 import MoviesRepository from '../repositories/MoviesRepository';
+import CategoriasRepository from '../repositories/CategoriasRepository';
+import MoviesToCategoriesRepository from '../repositories/MoviesToCategoriesRepository';
+
 import CreateMovieService from '../services/CreateMovieService';
 import EvaluateMovieService from '../services/EvaluateMovieService';
+import ListMoviesByCategoryService from '../services/ListMoviesByCategoryService';
 
 const moviesRouter = Router();
 
@@ -15,6 +19,28 @@ moviesRouter.get('/', async (request, response) => {
     return response.json(movies);
   } catch (err) {
     return response.status(400).json({ error: err.message });
+  }
+});
+
+moviesRouter.get('/find', async (request, response) => {
+  const moviesRepository = new MoviesRepository();
+  const categoriasRepository = new CategoriasRepository();
+  const moviesToCategoriesRepository = new MoviesToCategoriesRepository();
+
+  const listMoviesByCategoryService = new ListMoviesByCategoryService(
+    moviesRepository,
+    categoriasRepository,
+    moviesToCategoriesRepository,
+  );
+
+  try {
+    const { category } = request.query;
+
+    const movies = await listMoviesByCategoryService.execute(String(category));
+
+    return response.json({ Categoria: category, movies });
+  } catch (err) {
+    return response.json({ Error: err.message });
   }
 });
 

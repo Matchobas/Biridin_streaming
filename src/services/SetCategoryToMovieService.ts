@@ -35,6 +35,15 @@ class SetCategoryToMovieService {
     const cat = await this.categoriasRepository.findByName(categoria);
 
     if (movie && cat) {
+      const exists = await this.moviesToCategoriesRepository.findByTwoIds({
+        categoriaId: cat.id,
+        movieId: movie.id,
+      });
+
+      if (exists) {
+        throw new Error('This movie is already related to this category');
+      }
+
       const relation = await this.moviesToCategoriesRepository.create({
         categoriaId: cat.id,
         movieId: movie.id,

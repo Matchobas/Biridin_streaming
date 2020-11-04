@@ -18,6 +18,37 @@ class MoviesToCategories {
     this.ormRepository = getRepository(MoviesToCategorias);
   }
 
+  public async findByCategoryId(
+    id: number,
+  ): Promise<MoviesToCategorias[] | undefined> {
+    const relations = await this.ormRepository.find({
+      where: { movie_id: id },
+    });
+
+    return relations;
+  }
+
+  public async findByMovieId(
+    id: number,
+  ): Promise<MoviesToCategorias[] | undefined> {
+    const relations = await this.ormRepository.find({
+      where: { categoria_id: id },
+    });
+
+    return relations;
+  }
+
+  public async findByTwoIds({
+    categoriaId,
+    movieId,
+  }: MoviesToCategoriasDTO): Promise<MoviesToCategorias | undefined> {
+    const relation = await this.ormRepository.findOne({
+      where: { categoria_id: categoriaId, movie_id: movieId },
+    });
+
+    return relation;
+  }
+
   public async create({
     categoriaId,
     movieId,

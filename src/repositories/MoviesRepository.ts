@@ -33,6 +33,20 @@ class MoviesRepository {
     return movie;
   }
 
+  public async findById(id: number): Promise<Movie | undefined> {
+    const movie = await this.moviesOrm.findOne({
+      where: { id },
+    });
+
+    return movie;
+  }
+
+  public async findByIds(ids: number[]): Promise<Movie[] | undefined> {
+    const movies = await this.moviesOrm.findByIds(ids);
+
+    return movies;
+  }
+
   public async saveMovie(movie: Movie): Promise<Movie | undefined> {
     if (movie) {
       await this.moviesOrm.save(movie);

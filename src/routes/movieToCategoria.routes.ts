@@ -19,14 +19,18 @@ movieCategoryRouter.post('/addcategory', async (request, response) => {
     categoriasRepository,
   );
 
-  const { titulo, category } = request.body;
+  try {
+    const { titulo, category } = request.body;
 
-  const relation = await setCategoryToMovieService.execute({
-    titulo,
-    categoria: category,
-  });
+    const relation = await setCategoryToMovieService.execute({
+      titulo,
+      categoria: category,
+    });
 
-  return response.json(relation);
+    return response.json(relation);
+  } catch (err) {
+    return response.json({ Error: err.message });
+  }
 });
 
 export default movieCategoryRouter;
