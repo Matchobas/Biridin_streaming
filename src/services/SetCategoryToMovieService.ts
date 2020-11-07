@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe';
+
 import MoviesToCategoriesRepository from '../repositories/MoviesToCategoriesRepository';
 import MoviesRepository from '../repositories/MoviesRepository';
 import CategoriasRepository from '../repositories/CategoriasRepository';
@@ -9,22 +11,18 @@ interface RequestDTO {
   categoria: string;
 }
 
+@injectable()
 class SetCategoryToMovieService {
-  private moviesToCategoriesRepository: MoviesToCategoriesRepository;
-
-  private moviesRepository: MoviesRepository;
-
-  private categoriasRepository: CategoriasRepository;
-
   constructor(
-    moviesToCategoriesRepository: MoviesToCategoriesRepository,
-    moviesRepository: MoviesRepository,
-    categoriasRepository: CategoriasRepository,
-  ) {
-    this.moviesToCategoriesRepository = moviesToCategoriesRepository;
-    this.moviesRepository = moviesRepository;
-    this.categoriasRepository = categoriasRepository;
-  }
+    @inject('MoviesRepository')
+    private moviesRepository: MoviesRepository,
+
+    @inject('CategoriasRepository')
+    private categoriasRepository: CategoriasRepository,
+
+    @inject('MoviesToCategoriesRepository')
+    private moviesToCategoriesRepository: MoviesToCategoriesRepository,
+  ) {}
 
   public async execute({
     titulo,

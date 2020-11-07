@@ -1,19 +1,21 @@
+import { inject, injectable } from 'tsyringe';
+
 import Categoria from '../entities/Categoria';
-import CategoriaRepository from '../repositories/CategoriasRepository';
+import CategoriasRepository from '../repositories/CategoriasRepository';
 
 interface requestDTO {
   descricao: string;
 }
 
+@injectable()
 class CreateCategoriaService {
-  private categoriaRepository: CategoriaRepository;
-
-  constructor(categoriaRepository: CategoriaRepository) {
-    this.categoriaRepository = categoriaRepository;
-  }
+  constructor(
+    @inject('CategoriasRepository')
+    private categoriasRepository: CategoriasRepository,
+  ) {}
 
   public async execute({ descricao }: requestDTO): Promise<Categoria> {
-    const categoria = await this.categoriaRepository.createCategoria({
+    const categoria = await this.categoriasRepository.createCategoria({
       descricao,
     });
 

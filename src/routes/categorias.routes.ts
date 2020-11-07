@@ -1,4 +1,5 @@
 import Router from 'express';
+import { container } from 'tsyringe';
 
 import CategoryRepository from '../repositories/CategoriasRepository';
 
@@ -9,9 +10,8 @@ const categoriasRouter = Router();
 
 categoriasRouter.get('/', async (request, response) => {
   try {
-    const categoriaRepository = new CategoryRepository();
-    const listAllCategoriasService = new ListAllCategoriasService(
-      categoriaRepository,
+    const listAllCategoriasService = container.resolve(
+      ListAllCategoriasService,
     );
 
     const todasCategorias = await listAllCategoriasService.execute();
@@ -24,12 +24,9 @@ categoriasRouter.get('/', async (request, response) => {
 
 categoriasRouter.post('/create', async (request, response) => {
   try {
-    const categoriaRepository = new CategoryRepository();
-    const createCategoriaService = new CreateCategoriaService(
-      categoriaRepository,
-    );
-
     const { descricao } = request.body;
+
+    const createCategoriaService = container.resolve(CreateCategoriaService);
 
     const categoria = await createCategoriaService.execute({ descricao });
 

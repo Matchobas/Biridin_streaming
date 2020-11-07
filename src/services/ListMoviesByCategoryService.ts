@@ -1,25 +1,23 @@
+import { inject, injectable } from 'tsyringe';
+
 import MoviesRepository from '../repositories/MoviesRepository';
 import CategoriasRepository from '../repositories/CategoriasRepository';
 import MoviesToCategoriesRepository from '../repositories/MoviesToCategoriesRepository';
 
 import Movie from '../entities/Movie';
 
+@injectable()
 class ListMoviesByCategoryService {
-  private moviesRepository: MoviesRepository;
-
-  private categoriasRepository: CategoriasRepository;
-
-  private moviesToCategoriesRepository: MoviesToCategoriesRepository;
-
   constructor(
-    moviesRepository: MoviesRepository,
-    categoriasRepository: CategoriasRepository,
-    moviesToCategoriesRepository: MoviesToCategoriesRepository,
-  ) {
-    this.moviesRepository = moviesRepository;
-    this.categoriasRepository = categoriasRepository;
-    this.moviesToCategoriesRepository = moviesToCategoriesRepository;
-  }
+    @inject('MoviesRepository')
+    private moviesRepository: MoviesRepository,
+
+    @inject('CategoriasRepository')
+    private categoriasRepository: CategoriasRepository,
+
+    @inject('MoviesToCategoriesRepository')
+    private moviesToCategoriesRepository: MoviesToCategoriesRepository,
+  ) {}
 
   public async execute(categoria: string): Promise<Movie[] | undefined> {
     const category = await this.categoriasRepository.findByName(categoria);

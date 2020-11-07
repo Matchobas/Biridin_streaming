@@ -1,8 +1,7 @@
 import { Router } from 'express';
+import { container } from 'tsyringe';
 
 import MoviesRepository from '../repositories/MoviesRepository';
-import CategoriasRepository from '../repositories/CategoriasRepository';
-import MoviesToCategoriesRepository from '../repositories/MoviesToCategoriesRepository';
 
 import CreateMovieService from '../services/CreateMovieService';
 import EvaluateMovieService from '../services/EvaluateMovieService';
@@ -23,18 +22,12 @@ moviesRouter.get('/', async (request, response) => {
 });
 
 moviesRouter.get('/find', async (request, response) => {
-  const moviesRepository = new MoviesRepository();
-  const categoriasRepository = new CategoriasRepository();
-  const moviesToCategoriesRepository = new MoviesToCategoriesRepository();
-
-  const listMoviesByCategoryService = new ListMoviesByCategoryService(
-    moviesRepository,
-    categoriasRepository,
-    moviesToCategoriesRepository,
-  );
-
   try {
     const { category } = request.query;
+
+    const listMoviesByCategoryService = container.resolve(
+      ListMoviesByCategoryService,
+    );
 
     const movies = await listMoviesByCategoryService.execute(String(category));
 
@@ -45,11 +38,10 @@ moviesRouter.get('/find', async (request, response) => {
 });
 
 moviesRouter.post('/create', async (request, response) => {
-  const moviesRepository = new MoviesRepository();
-  const createMovieService = new CreateMovieService(moviesRepository);
-
   try {
     const { titulo, sinopse, duracao, avaliacao } = request.body;
+
+    const createMovieService = container.resolve(CreateMovieService);
 
     const movie = await createMovieService.execute({
       titulo,
@@ -65,11 +57,10 @@ moviesRouter.post('/create', async (request, response) => {
 });
 
 moviesRouter.put('/evaluate', async (request, response) => {
-  const moviesRepository = new MoviesRepository();
-  const evaluateMovieService = new EvaluateMovieService(moviesRepository);
-
   try {
     const { titulo, avaliacao } = request.body;
+
+    const evaluateMovieService = container.resolve(EvaluateMovieService);
 
     const movie = await evaluateMovieService.execute({
       titulo,

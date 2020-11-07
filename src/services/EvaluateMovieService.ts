@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe';
+
 import MoviesRepository from '../repositories/MoviesRepository';
 import Movie from '../entities/Movie';
 
@@ -6,12 +8,12 @@ interface RequestDTO {
   avaliacao: number;
 }
 
+@injectable()
 class EvaluateMovieService {
-  private moviesRepository: MoviesRepository;
-
-  constructor(moviesRepository: MoviesRepository) {
-    this.moviesRepository = moviesRepository;
-  }
+  constructor(
+    @inject('MoviesRepository')
+    private moviesRepository: MoviesRepository,
+  ) {}
 
   public async execute({
     titulo,

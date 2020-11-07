@@ -4,6 +4,7 @@ import express from 'express';
 import routes from './routes/index';
 
 import './typeorm';
+import './container';
 
 const app = express();
 
