@@ -35,7 +35,7 @@ class ListMoviesByCategoryService {
     }
 
     const moviesIds = relations.map(relation => {
-      return relation.id;
+      return relation.movie_id;
     });
 
     const movies = await this.moviesRepository.findByIds(moviesIds);

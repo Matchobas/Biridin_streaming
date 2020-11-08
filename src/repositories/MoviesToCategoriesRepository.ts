@@ -22,7 +22,7 @@ class MoviesToCategories {
     id: number,
   ): Promise<MoviesToCategorias[] | undefined> {
     const relations = await this.ormRepository.find({
-      where: { movie_id: id },
+      where: { categoria_id: id },
     });
 
     return relations;
@@ -32,7 +32,7 @@ class MoviesToCategories {
     id: number,
   ): Promise<MoviesToCategorias[] | undefined> {
     const relations = await this.ormRepository.find({
-      where: { categoria_id: id },
+      where: { movie_id: id },
     });
 
     return relations;
